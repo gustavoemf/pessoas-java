@@ -31,43 +31,43 @@ public class PessoaService {
         List<PessoaEntity> lista = repository.findAll();
         List<PessoaDto> listaDTO = new ArrayList<>();
 
-        for (PessoaEntity pessoaEntity : lista) listaDTO.add(this.toPessoaDTO(pessoaEntity));
+        for (PessoaEntity entity : lista) listaDTO.add(this.toPessoaDTO(entity));
 
         return listaDTO;
     }
 
     public PessoaDto update(Long id, PessoaDto dto) {
-        Optional<PessoaEntity> optionalPessoa = repository.findById(id);
+        Optional<PessoaEntity> optional = repository.findById(id);
 
-        if (optionalPessoa.isEmpty()) {
+        if (optional.isEmpty()) {
             throw new IllegalArgumentException("Pessoa com o ID " + id + " não encontrada.");
         }
 
-        PessoaEntity pessoaEntity = optionalPessoa.get();
+        PessoaEntity entity = optional.get();
 
-        pessoaEntity.setNome(dto.getNome());
-        pessoaEntity.setIdade(dto.getIdade());
+        entity.setNome(dto.getNome());
+        entity.setIdade(dto.getIdade());
 
-        return toPessoaDTO(repository.save(pessoaEntity));
+        return toPessoaDTO(repository.save(entity));
     }
 
     public void delete(Long id) {
         repository.deleteById(id);
     }
 
-    private PessoaDto toPessoaDTO(PessoaEntity pessoa) {
-        PessoaDto pessoaDTO = new PessoaDto();
-        pessoaDTO.setId(pessoa.getId());
-        pessoaDTO.setNome(pessoa.getNome());
-        pessoaDTO.setIdade(pessoa.getIdade());
-        return pessoaDTO;
+    private PessoaDto toPessoaDTO(PessoaEntity entity) {
+        PessoaDto dto = new PessoaDto();
+        dto.setId(entity.getId());
+        dto.setNome(entity.getNome());
+        dto.setIdade(entity.getIdade());
+        return dto;
     }
 
-    private PessoaEntity toPessoa(PessoaDto pessoaDTO) {
-        PessoaEntity pessoa = new PessoaEntity();
-        pessoa.setId(pessoaDTO.getId());
-        pessoa.setNome(pessoaDTO.getNome());
-        pessoa.setIdade(pessoaDTO.getIdade());
-        return pessoa;
+    private PessoaEntity toPessoa(PessoaDto dto) {
+        PessoaEntity entity = new PessoaEntity();
+        entity.setId(dto.getId());
+        entity.setNome(dto.getNome());
+        entity.setIdade(dto.getIdade());
+        return entity;
     }
 }
